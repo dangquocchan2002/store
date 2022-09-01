@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart </title>
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+
+<body >
+
+    
+        <div class="container" ng-app="shopping-cart-app" ng-controller="shopping-cart-ctrl">
+            <div class="navbar">
+                <div class="logo">
+                    <a th:href="@{/product/list}"><img src="/assets/images/logo.png"
+						width="125px"></a>
+                </div>
+                <nav>
+					<ul>
+						<li><a th:href="@{/product/list}">Home</a></li>
+						<th:block th:if="${#request.remoteUser}">
+						<li><a th:href="@{/security/logoff}">Sign Out</a></li>
+						<li><a th:href="@{/order/list}">Your Orders</a></li>
+						<li
+						th:if="${#request.isUserInRole('DIRE') or #request.isUserInRole('STAF')}">
+						<a th:href="@{/admin/home/index}">Administration</a>
+						</li>
+						</th:block>
+						<th:block th:unless="${#request.remoteUser}">
+						<li><a th:href="@{/security/login/form}">Sign in</a></li>
+						</th:block>
+					</ul>
+					</ul>
+<!-- 		dang nhap thi hien thi welcome nguoi dung -->
+			<ul th:if="${#request.remoteUser}" class="nav navbar-nav navbar-right">
+				<li><a href="#">Welcome [[${#request.remoteUser}]]</a></li>
+			</ul>
+				</nav>
+                <a th:href="@{/cart/view}" class="btn btn-success"><img
+					src="/assets/images/cart.png" width="30px" height="30px">{{cart.count}}</a>
+            </div>
+            
+        
+
+        <!-- cart item -->
+        <div class="small-container cart-page">
+            <table>
+                <tr>
+                	<th>Id</th>
+                    <th>Product</th>
+                    
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="item in cart.items">
+                <td>{{item.id}}</td>
+                
+                    <td>
+                        <div class="cart-info">
+                            <img src="/assets/images/buy-1.jpg" >
+                            <div>
+                                <p>{{item.name}}</p>
+                                <small>Price: ${{item.price | number : 2}}</small>
+                                <br>
+                                <a href="">Remove</a>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td><input ng-change="cart.saveToLocalStorage()" ng-model="item.qty" type="number" min="1" style=""></td>
+                    <td>${{item.qty*item.price | number : 2}}</td>
+                    <td>
+                    <button ng-click="cart.remove(item.id)" class="btn ">
+            						<i class="fa fa-trash">Xóa</i>
+            					</button>
+            			</td>		
+                </tr>
+                
+                
+
+            </table>
+
+            <div class="total-price">
+<!--                 <table> -->
+<!--                     <tr> -->
+<!--                         <td>Subtotal</td> -->
+<!--                         <td>$200</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>Tax</td> -->
+<!--                         <td>$200</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>Total</td> -->
+<!--                         <td>$200</td> -->
+<!--                     </tr> -->
+<!--                 </table> -->
+                <button ng-click="cart.clear()" class="btn btn-danger">
+            			<i class="glyphicon glyphicon-trash"></i> Làm mới
+            		</button>
+            		<a th:href="@{/order/checkout}" class="btn btn-primary">
+            			<i class="glyphicon glyphicon-hand-right"></i> Thanh toán
+            		</a>
+            </div>
+        </div>
+        </div>
+
+        
+        
+        
+
+        
+       
+        
+    
+
+    
+
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and Ios mobile phone</p>
+                    <div class="app-logo">
+                        <img src="/assets/images/play-store.png" >
+                        <img src="/assets/images/app-store.png" >
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="/assets/images/logo-white.png" alt="">
+                    <p>Out Purpose Is To Sustainably Make the Please and benefits of Sport Accessible to the many.</p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Userful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blogs Post</li>
+                        <li>Return Policy</li>
+                        <li>Join </li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Youtube</li>
+                        <li>Instagram </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="/assets/js/shopping-cart-app.js"></script>
+</body>
+
+</html>

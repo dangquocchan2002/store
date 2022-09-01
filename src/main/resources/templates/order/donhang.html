@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết đơn hàng </title>
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+
+<body >
+
+    
+        <div class="container" ng-app="shopping-cart-app" ng-controller="shopping-cart-ctrl">
+            <div class="navbar">
+                <div class="logo">
+                    <a th:href="@{/product/list}"><img src="/assets/images/logo.png"
+						width="125px"></a>
+                </div>
+                <nav>
+					<ul>
+						<li><a th:href="@{/product/list}">Home</a></li>
+						<th:block th:if="${#request.remoteUser}">
+						<li><a th:href="@{/security/logoff}">Sign Out</a></li>
+						<li><a th:href="@{/order/list}">Your Orders</a></li>
+						<li
+						th:if="${#request.isUserInRole('DIRE') or #request.isUserInRole('STAF')}">
+						<a th:href="@{/admin/home/index}">Administration</a>
+						</li>
+						</th:block>
+						<th:block th:unless="${#request.remoteUser}">
+						<li><a th:href="@{/security/login/form}">Sign in</a></li>
+						</th:block>
+					</ul>
+					</ul>
+<!-- 		dang nhap thi hien thi welcome nguoi dung -->
+			<ul th:if="${#request.remoteUser}" class="nav navbar-nav navbar-right">
+				<li><a href="#">Welcome [[${#request.remoteUser}]]</a></li>
+			</ul>
+				</nav>
+                <a th:href="@{/cart/view}" class="btn btn-success"><img
+					src="/assets/images/cart.png" width="30px" height="30px">{{cart.count}}</a>
+            </div>
+            
+        
+
+        <!-- cart item -->
+        <div class="small-container cart-page">
+            
+            <div class="panel panel-primary">
+            	<div class="panel-heading">ĐƠN HÀNG BẠN ĐÃ MUA</div>
+            	<table class="table">
+            		<thead>
+            			<tr>
+            				<th>No.</th>
+            				<th>Order No.</th>
+            				<th>Order Date</th>
+            				<th>Shipping Address</th>
+            				<th></th>
+            			</tr>
+            		</thead>
+            		<tbody>
+<!--             	duyet qua orders trong OrderCartController -->
+            			<tr th:each="order, state: ${orders}">
+            				<td>[[${state.index}]]</td>
+            				<td>[[${order.id}]]</td>
+            				<td>[[${order.createDate}]]</td>
+            				<td>[[${order.address}]]</td>
+            				<td>
+            					<a th:href="@{|/order/detail/${order.id}|}" class="btn btn-default">
+            						<b class="fa fa-search">Chi tiết</b>
+            					</a>
+            				</td>
+            			</tr>
+            		</tbody>
+            	</table>
+            </div>
+        </div>
+        </div>
+
+        
+        
+        
+
+        
+       
+        
+    
+
+    
+
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and Ios mobile phone</p>
+                    <div class="app-logo">
+                        <img src="/assets/images/play-store.png" >
+                        <img src="/assets/images/app-store.png" >
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="/assets/images/logo-white.png" alt="">
+                    <p>Out Purpose Is To Sustainably Make the Please and benefits of Sport Accessible to the many.</p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Userful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blogs Post</li>
+                        <li>Return Policy</li>
+                        <li>Join </li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Youtube</li>
+                        <li>Instagram </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="/assets/js/shopping-cart-app.js"></script>
+</body>
+
+</html>
